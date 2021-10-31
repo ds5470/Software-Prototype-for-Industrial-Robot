@@ -1,0 +1,34 @@
+MODULE MainModule
+	PERS tooldata SmartGrip:=[TRUE,[[0,0,135],[1,0,0,0]],[1,[0,0,10],[1,0,0,0],0,0,0]];
+	CONST robtarget zero_pose:=[[302.00,-0.01,423.00],[4.82148E-7,-1.24602E-7,-1,-9.82803E-12],[-1,0,-5,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	PERS wobjdata conveyer:=[FALSE,TRUE,"",[[-197.617,493.196,165.361],[0.966546,0.256492,-2.91086E-8,-1.09691E-7]],[[0,0,0],[1,0,0,0]]];
+	PERS wobjdata pallete:=[FALSE,TRUE,"",[[90.7621,-306.963,120.115],[0.00319275,0.999995,-2.47054E-7,-7.88785E-10]],[[0,0,0],[1,0,0,0]]];
+	VAR robtarget corigin:=[[19.76,3.93,-115.78],[0.0103499,-0.00311192,-0.9931,0.116769],[1,-1,-3,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	VAR robtarget capproach:=[[19.76,9.92,-105.29],[0.0103499,-0.00311167,-0.9931,0.116769],[1,-1,-3,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	VAR robtarget papproach:=[[-86.07,64.96,102.07],[0.706853,0.00225653,-0.00225811,0.707353],[-1,0,-2,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	VAR robtarget porigin:=[[-86.07,64.77,132.34],[0.706853,0.00225646,-0.00225803,0.707353],[-1,0,-2,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	VAR robtarget porigins1:=[[-46.16,64.89,114.22],[0.702248,0.0805797,0.0761451,0.703247],[-2,0,-3,0],[9E+9,9E+9,9E+9,9E+9,9E+9,9E+9]];
+	PROC main()
+            FOR i FROM 1 TO 6 DO
+                Movej capproach, v1000, fine, SmartGrip\WObj:=conveyer;
+                Movej corigin, v1000, fine, SmartGrip\WObj:=conveyer;
+                Set Gripper;
+                WaitTime 0.25;
+                MoveJ corigin, v1000, fine, SmartGrip\WObj:=conveyer;
+                MoveJ zero_pose, v1000, fine, SmartGrip\WObj:=wobj0;
+                MoveJ papproach, v1000, fine, SmartGrip\WObj:=pallete;
+                MoveJ porigins1, v1000, fine, SmartGrip\WObj:=pallete;
+                Reset Gripper;
+                WaitTime 0.25;
+                MoveJ papproach, v1000, fine, SmartGrip\WObj:=pallete;
+                MoveJ zero_pose, v1000, fine, SmartGrip\WObj:=wobj0;
+                capproach.trans.x:=capproach.trans.x+80;
+                corigin.trans.x:=corigin.trans.x+80;
+                papproach.trans.y:=papproach.trans.y+30;
+                porigins1.trans.y:=porigins1.trans.y+30;
+            ENDFOR
+           
+            
+            
+	ENDPROC
+ENDMODULE
